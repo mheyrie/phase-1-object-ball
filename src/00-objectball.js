@@ -116,9 +116,98 @@ function gameObject() {
 }
     }
 }
-function homeTeamName() {
-    let object = gameObject()
-    return object['homeTeam']['teamName']
-  }
-  
-  console.log(homeTeamName())
+
+const game = gameObject();
+
+function numPointsScored(playerName){
+    for (const team in game) {
+        for(const teamProp  in game[team]){
+            if (typeof game[team][teamProp] === "object"){
+                for (const player in game[team][teamProp]){
+                    if (player === playerName) return game[team][teamProp][player].points;
+                }
+            }
+        }
+    }
+
+}
+
+function shoeSize(playerName){
+    for (const team in game){
+        for (const teamProp in game[team]){
+            if (typeof game[team][teamProp] === "object"){
+                for (const player in game[team][teamProp]){
+                    if (player === playerName) return game[team][teamProp][player].shoe;
+                }
+            }
+        }
+    }
+}
+
+function teamColors(searchTeam){
+    for (const team in game){
+        for (const teamProp in game[team]){
+            if (game[team].teamName === searchTeam){
+                return game[team].colors;
+            }
+        }
+    }
+}
+
+function teamNames() {
+    const arr = [];
+    for (const team in game){
+        arr.push(game[team].teamName)
+    }
+    return arr
+}
+
+function playerNumbers (putTeamName){
+    const arr = [];
+    for (const team in game){
+        if (game[team].teamName === putTeamName){
+            for (const player in game[team].players){
+                arr.push(game[team].players[player].number)
+            }
+            
+        }
+    }
+    return arr
+}
+
+function playerStats(playersName){
+    for (const team in game){
+        for (const player in game[team].players){
+            if (player === playersName)
+            return game[team].players[player]
+        }
+    }    
+}
+
+function biggestShoeSize(){
+    let focalSize = 0;
+    let focalPlayer = "";
+    for (const team in game){
+        for (const player in game[team].players){
+            if (game[team].players[player].shoe > focalSize){
+                focalSize = game[team].players[player].shoe;
+                focalPlayer = player;
+            }
+        }
+    }
+    return focalPlayer;
+}
+
+biggestShoeSize();
+
+const PlayerWithBiggestSize = biggestShoeSize();
+
+function bigShoeRebounds(){
+    for (const team in game){
+        for (const player in game[team].players){
+            if (player === PlayerWithBiggestSize)
+            return game[team].players[player].rebounds;
+        }
+    }
+}
+
